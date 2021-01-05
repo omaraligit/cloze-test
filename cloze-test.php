@@ -51,7 +51,7 @@
                            </div>
                            <div>
                               <h6>Missing words list</h6>
-                              <span class="badge badge-pill badge-info mr-2 p-1 px-3" v-for="word in missing_words" >{{word.text}}</span
+                              <span class="badge badge-pill badge-info mr-2 p-1 px-3" v-for="word in missing_words" >{{word.text}}</span>
                            </div>
                             <div class="row">
                                 <div class="col-6 pr-1">
@@ -70,8 +70,24 @@
                   </div>
                </div>
             </div>
+             <div class="container-fluid">
+                 <div class="row">
+                     <div class="col-12" v-for="tested in testFromApi">
+                         <div class=" bg-white rounded p-2 mb-3 text-justify">
+                             <p class="p-2">{{ tested.text_content }}</p>
+                             <hr>
+                             <b>from</b> {{ tested.date_start }} <b>to</b> {{ tested.date_end }}
+                             <hr>
+                             <span class="badge badge-pill badge-info mr-2 p-1 px-3" v-for="word in JSON.parse(tested.words_missing)" >{{word.text}}</span>
+                             <hr>
+                             <button class="btn btn-info" >Visit page</button>
+                             <button class="btn btn-danger" >Delete</button>
+                         </div>
+                     </div>
+                 </div>
+             </div>
          </section>
-         <!--add teacher modal-->
+          <!--add teacher modal-->
          <div>
             <b-modal id="schedule" size="md" title="Schedule Cloze Test" @ok="scheduleNewTest">
                <template>
@@ -113,11 +129,25 @@
                 date_end:"",
                 test_words_count:15,
                 missing_words:[],
-                response:null,
+                testFromApi:[],
                 error:""
             }
           },
+          mounted(){
+              this.getTests()
+          },
         methods:{
+      	    getTests(){
+                axios.post("/api-test.php", {
+                    getTests: true,
+                })
+                .then((response) => {
+                    this.testFromApi = response.data;
+                })
+                .catch(function (error) {
+                    console.error(error);
+                });
+            },
       	    validateData(){
                 /** ----------- reset error text ----- */
                 this.error = ""
@@ -147,10 +177,11 @@
                     date_start: this.date_start,
                     date_end: this.date_end,
                 })
-                    .then(function (response) {
+                    .then((response) => {
                         console.log(response.data);
+                        this.getTests()
                     })
-                    .catch(function (error) {
+                    .catch((error) => {
                         console.error(error);
                     });
             },

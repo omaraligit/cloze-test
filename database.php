@@ -57,15 +57,15 @@ try {
             return $res;
     }
 
-    function getAllTests($id){
+    function getAllTests(){
         global $file_db;
         // Select all data from file db messages table
         $result = $file_db->query('SELECT * FROM test_tables');
-
+        $res = [];
         foreach($result as $row) {
-            echo "Id: " . $row['id'] . "\n";
-            echo "\n";
+            $res[] = $row;
         }
+        return $res;
     }
 
 }

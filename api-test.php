@@ -36,11 +36,19 @@ if (isset($_POST["test_text"])){
             "date_end" =>$date_end,
         ]);
     }
-
-
-    //return $res;
 }
 
+// --------------------
+// getting saved tests to show on admin page
+// --------------------
+
+if (isset($_POST["getTests"])){
+    // set response header as json as the respons is a api json data
+    header('Content-Type: application/json');
+    // getting the data from database
+    $tests = getAllTests();
+    echo json_encode($tests);
+}
 
 die();
 exit();
