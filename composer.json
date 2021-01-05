@@ -1,5 +1,6 @@
 {
     "name": "omar/cloze-test",
+    "description":"a test generato mini app",
     "authors": [
         {
             "name": "Omar Ali",
@@ -9,5 +10,5 @@
     "require": {
         "php": "^7.2.5",
         "ext-pdo_sqlite": "*"
-    },
+    }
 }
