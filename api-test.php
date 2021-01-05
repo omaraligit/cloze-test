@@ -50,6 +50,17 @@ if (isset($_POST["getTests"])){
     echo json_encode($tests);
 }
 
+// --------------------
+// deleting a test
+// --------------------
+
+if (isset($_POST["deleteTest"])){
+    // set response header as json as the respons is a api json data
+    header('Content-Type: application/json');
+    // deliting the test from db
+    $res = deleteTest($_POST["deleteTest"]);
+    echo json_encode($res);
+}
 die();
 exit();
 

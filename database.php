@@ -31,7 +31,15 @@ try {
     /**************************************
      * Play with databases and tables      *
      **************************************/
-
+    /**
+     * @param $text_content
+     * @param $words_missing
+     * @param $date_start
+     * @param $date_end
+     * @param $missing_words_counter
+     * @return bool|string
+     * this will add a new test to database
+     */
     function newTest($text_content,$words_missing,$date_start, $date_end,$missing_words_counter){
         global $file_db;
         // Prepare INSERT statement to SQLite3 file db
@@ -65,6 +73,27 @@ try {
         foreach($result as $row) {
             $res[] = $row;
         }
+        return $res;
+    }
+
+    /**
+     * @param $text_content
+     * @param $words_missing
+     * @param $date_start
+     * @param $date_end
+     * @param $missing_words_counter
+     * @return bool|string
+     * this function will delete a given test
+     */
+    function deleteTest($id){
+        global $file_db;
+        // Prepare delete stmt db
+        $insert = "DELETE FROM test_tables WHERE id like :id";
+        $stmt = $file_db->prepare($insert);
+
+        // Bind parameters to statement variables
+        $stmt->bindParam(':id', $id);
+        $res = $stmt->execute();
         return $res;
     }
 

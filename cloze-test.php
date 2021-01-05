@@ -80,8 +80,8 @@
                              <hr>
                              <span class="badge badge-pill badge-info mr-2 p-1 px-3" v-for="word in JSON.parse(tested.words_missing)" >{{word.text}}</span>
                              <hr>
-                             <button class="btn btn-info" >Visit page</button>
-                             <button class="btn btn-danger" >Delete</button>
+                             <a :href="'/cloze-test-student.php?id='+tested.id" class="btn btn-info btn-sm" >Visit page</a>
+                             <button class="btn btn-danger" @click="deleteTest(tested.id)">Delete</button>
                          </div>
                      </div>
                  </div>
@@ -166,6 +166,20 @@
                     return true
                 else
                     return false
+            },
+            deleteTest(id){
+                if(confirm("Are you sure to delete test number: "+ id)){
+                    axios.post("/api-test.php", {
+                        deleteTest: id,
+                    })
+                        .then((response) => {
+                            console.log(response.data);
+                            this.getTests()
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                }
             },
             scheduleNewTest(){
       	        if (!this.validateData())
