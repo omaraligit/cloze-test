@@ -1,0 +1,13 @@
+{
+    "name": "omar/cloze-test",
+    "authors": [
+        {
+            "name": "Omar Ali",
+            "email": "omarali0601520286@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2.5",
+        "ext-pdo_sqlite": "*"
+    },
+}
