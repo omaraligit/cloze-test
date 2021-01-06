@@ -51,7 +51,7 @@
                            </div>
                            <div>
                               <h6>Missing words list</h6>
-                              <span class="badge badge-pill badge-info mr-2 p-1 px-3" v-for="word in missing_words" >{{word.text}}</span>
+                              <span class="badge badge-pill badge-info mr-2 p-1 px-3" v-for="word in missing_words" >{{word.text}} {{word.index}}</span>
                            </div>
                             <div class="row">
                                 <div class="col-6 pr-1">
@@ -78,7 +78,7 @@
                              <hr>
                              <b>from</b> {{ tested.date_start }} <b>to</b> {{ tested.date_end }}
                              <hr>
-                             <span class="badge badge-pill badge-info mr-2 p-1 px-3" v-for="word in JSON.parse(tested.words_missing)" >{{word.text}}</span>
+                             <span class="badge badge-pill badge-info mr-2 p-1 px-3" v-for="word in JSON.parse(tested.words_missing)" >{{word.text}}{{word.index}}</span>
                              <hr>
                              <a :href="'/cloze-test-student.php?id='+tested.id" class="btn btn-info btn-sm" >Visit page</a>
                              <button class="btn btn-danger" @click="deleteTest(tested.id)">Delete</button>
@@ -213,10 +213,19 @@
                 //    }
                 //
                 /** ----------- another way to randomise the selection ----- */
-                for (i=0;i<words.length;i++){
+                i = 0
+                for (i=i;i<words.length;i++){
                     var random = Math.floor(Math.random() * (words.length - 0) + 0);
                     if (words[random].length > 3 && this.missing_words.length < this.test_words_count){
-                        this.missing_words.push({index:random,text:words[random]})
+                        alreadyUsed = false
+                        this.missing_words.map((item,i_index)=>{
+                            if (item.index == random){
+                                alreadyUsed = true
+                            }
+                        })
+                        if (alreadyUsed == false){
+                            this.missing_words.push({index:random,text:words[random]})
+                        }
                     }
                 }
 
